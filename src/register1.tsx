@@ -1,19 +1,13 @@
 import  './index.css';
+import {useDispatch, useSelector} from 'react-redux'
 import {useForm} from 'react-hook-form'
-type UserData = {
-  firstName: string,
-  lastName: string,
-  birthday: string,
-  email: string,
-  address: string
-}
-type UserForm = UserData & {
-  fieldsChange : (fields: Partial<UserData>) => void 
-}
+import {setFirstName, setLastName, setBirthday, setEmail, setAddress} from './features/userSlice';
+import { RootState, store } from './store/store';
 
-export function Register1({firstName, lastName, birthday, email, address, fieldsChange}:UserForm) {
-    const {register, handleSubmit, watch, formState: { errors }} = useForm<UserData>();
-    
+export function Register1() {
+    const dispatch  = useDispatch();
+    const selector = useSelector((state:RootState) => state.user);
+    console.log(store.getState().user)
     return (
         <>
         <div className='flex flex-wrap'>
@@ -21,31 +15,31 @@ export function Register1({firstName, lastName, birthday, email, address, fields
                     <label className="block text-gray-700 text-sm font-bold mb-2">
                       First Name
                     </label>
-                    <input className="shadow appearance-none border rounded w-60 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"  id="username" type="text" placeholder="First Name" value={firstName} {...register("firstName", { required: true })} onChange={e => fieldsChange({firstName : e.target.value})}/>
+                    <input className="shadow appearance-none border rounded w-60 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"  id="username" type="text" placeholder="First Name" value={selector.firstName} onChange={e => dispatch((setFirstName(e.target.value)))}/>
                   </div>
                   <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2">
                       Last Name
                     </label>
-                    <input className="shadow appearance-none border rounded w-60 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value={lastName} id="username" type="text" placeholder="Last Name" {...register("lastName", { required: true })} onChange={e => fieldsChange({lastName : e.target.value})}/>
+                    <input className="shadow appearance-none border rounded w-60 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required id="username" type="text" placeholder="Last Name" value={selector.lastName}  onChange={e => dispatch((setLastName(e.target.value)))}/>
                   </div>
                   <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2">
                       Date of birth
                     </label>
-                    <input className="shadow appearance-none border rounded w-60 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value={birthday} id="username" type="text" placeholder="Date of birth" {...register("birthday", { required: true })} onChange={e => fieldsChange({birthday : e.target.value})}/>
+                    <input className="shadow appearance-none border rounded w-60 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required id="username" type="text" placeholder="Date of birth" value={selector.birthday} onChange={e => dispatch((setBirthday(e.target.value)))}/>
                   </div>
                   <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2">
                       Email Address
                     </label>
-                    <input className="shadow appearance-none border rounded w-60 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value={email} required id="username" type="email" placeholder="Email Address" {...register("email", { required: true })} onChange={e => fieldsChange({email : e.target.value})}/>
+                    <input className="shadow appearance-none border rounded w-60 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required id="username" type="email" placeholder="Email Address" value={selector.email}  onChange={e => dispatch((setEmail(e.target.value)))}/>
                   </div>
                   <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2">
                       Address
                     </label>
-                    <input className="shadow appearance-none border rounded w-96 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value={address} id="username" type="email" placeholder="Address" {...register("address", { required: true })} onChange={e => fieldsChange({address : e.target.value})}/>
+                    <input className="shadow appearance-none border rounded w-96 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required id="username" type="email" placeholder="text" value={selector.address} onChange={e => dispatch((setAddress(e.target.value)))}/>
                   </div>
                   </div>
         </>

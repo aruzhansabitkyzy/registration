@@ -1,6 +1,4 @@
-import React from 'react';
 import {FormEvent} from 'react'
-import logo from './logo.svg';
 import './App.css';
 import  './index.css';
 import {useState} from 'react'
@@ -8,59 +6,18 @@ import {useSteps} from './useSteps'
 import {Register1} from './register1';
 import {Register2} from './register2';
 import {Register3} from './register3';
-import {useForm} from 'react-hook-form'
-type Data = {
-  firstName: string,
-  lastName: string,
-  birthday: string,
-  email: string,
-  address: string,
-  message: string,
-  choice: string,
-  im_choice : string,
-  checkbox1: boolean,
-  checkbox2: boolean
-}
-const INITIAL_DATA = {
-  firstName : "",
-  lastName: "",
-  birthday: "",
-  email: "",
-  address: "",
-  message:"",
-  choice: "",
-  im_choice : "",
-  checkbox1: false,
-  checkbox2: false
-}
-type CredentialInputs = {
-    firstName: string,
-    lastName: string,
-    birthday: string,
-    email: string, 
-    address : string
-}
-
 function App() {
-  const [data, setData] = useState(INITIAL_DATA)
-  function fieldsChange(fields: Partial<Data>) {
-        console.log(fields)
-       setData(el => {
-          return {...el, ...fields}
-       })
-  }
-  const { register, handleSubmit, watch, formState: { errors } } = useForm<CredentialInputs>();
   const {nextStep, prevStep,  currentStep, step, steps,isLastStep, isFirstStep} 
-  = useSteps([<Register1 {...data} fieldsChange={fieldsChange}/>, 
-  <Register2 {...data} fieldsChange={fieldsChange}/>, 
-  <Register3 {...data} fieldsChange={fieldsChange}/>])
+  = useSteps([<Register1 />, 
+  <Register2 />, 
+  <Register3 />])
   function onSubmit(e:FormEvent) {   
     e.preventDefault();
      if(!isLastStep()) {
          nextStep()
      }
      else {
-      console.log('done')
+      alert('Created successfully')
      }
   }
   return (

@@ -1,14 +1,13 @@
 import  './index.css';
+import { useDispatch , useSelector } from 'react-redux';
 import {useEffect, useState} from 'react'
-type MessageData = {
-    message: string,
-    choice: string
-}
-type MessageForm =  MessageData & {
-    fieldsChange : (fields: Partial<MessageData>) => void
-}
-export function Register2({message, choice, fieldsChange}:MessageForm) {
+import {setMessage, setChoice} from './features/messageSlice';
+import {RootState} from './store/store'
+
+export function Register2() {
     const [selectedRadio , setSelected] = useState('');
+    const selector = useSelector((state:RootState) => state.message)
+    const dispatch  = useDispatch()
     function isRadioSelected(value: string):boolean {
          setSelected(value);
           return true;
@@ -19,7 +18,7 @@ export function Register2({message, choice, fieldsChange}:MessageForm) {
         console.log('cd')
     }
     useEffect(() => {
-        fieldsChange({choice : selectedRadio})
+        dispatch(setChoice(selectedRadio));
     }, [selectedRadio])
 
     return (
@@ -28,7 +27,7 @@ export function Register2({message, choice, fieldsChange}:MessageForm) {
             <label className="block text-gray-700 text-sm font-bold mb-2">
                       Message
             </label>
-            <textarea className='w-96 h-40 py-1.5 px-1.5 outline-none border-slate-300 appearance-none border rounded-lg resize-none' value={message} onChange={e => fieldsChange({message : e.target.value})}></textarea>
+            <textarea className='w-96 h-40 py-1.5 px-1.5 outline-none border-slate-300 appearance-none border rounded-lg resize-none' value={selector.message} onChange={e => dispatch(setMessage(e.target.value))}></textarea>
         </div>
         <div className="mb-4">
             
